@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 // Exemple d'utilisation
 
-export const Navbar = () => {
+export const Navbar = ({visibleNav}) => {
   const pathName = usePathname();
 
   return (
