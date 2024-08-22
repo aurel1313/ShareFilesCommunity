@@ -5,15 +5,23 @@ import {
   NavbarContent,
   NavbarItem,
 } from "@nextui-org/navbar";
-import { Button, Link } from "@nextui-org/react";
+import { Avatar, Button, Link, useDisclosure } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { signOut, useSession,signIn } from "next-auth/react";
+import { Sign } from "crypto";
+import { SignOut } from "../SignOut/SignOut";
+import router from "next/router";
+import { set } from "zod";
+
 
 // Exemple d'utilisation
 
-export const Navbar = ({visibleNav}) => {
+export const Navbar = ({visibleNav,openModal}) => {
   const pathName = usePathname();
-
+  const {data : session} = useSession()
+ 
+ 
   return (
     <Navbars className="fixed">
       <NavbarBrand>
@@ -37,21 +45,34 @@ export const Navbar = ({visibleNav}) => {
         </NavbarItem>
       </NavbarContent>
       <NavbarContent justify="end">
-        {pathName && pathName === "/Login" && (
+        {pathName && !session && pathName === "/Login" && (
           <NavbarItem className="hidden lg:flex" isActive>
-            <Link href="/Login">Login</Link>
+             <Link href="/api/auth/signin">Login</Link>
           </NavbarItem>
         )}
         {pathName && pathName !== "/Login" && (
           <NavbarItem className="hidden lg:flex">
-            <Link href="/Login">Login</Link>
+            <Link href="/api/auth/signin">Login</Link>
           </NavbarItem>
         )}
 
+        {session && (
+          <NavbarItem>
+            <Avatar src={session.user.image} size="small" onClick={openModal} />
+           
+          </NavbarItem>
+        )}
         <NavbarItem>
+          {!session &&
           <Link color="primary" href="/Register" variant="flat">
             Sign Up
           </Link>
+          }
+        </NavbarItem>
+        <NavbarItem>
+          {session && (
+           <SignOut/>
+          )}
         </NavbarItem>
       </NavbarContent>
     </Navbars>
