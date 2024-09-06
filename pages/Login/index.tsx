@@ -27,6 +27,7 @@ export default function Login(p0: FormData) {
        name: null,
        email: null,
        image: null,
+        provider: null,
    }
    if (session?.user) {
        auths = {
@@ -34,6 +35,7 @@ export default function Login(p0: FormData) {
            name: session.user.name,
            email: session.user.email,
            image: session.user.image,
+            provider: session.user.provider,
        }
        
    }

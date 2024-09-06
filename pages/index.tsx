@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import Profil from "./Profil";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-
+import { Octokit } from "octokit";
  
 
  export default function Index() {
@@ -20,7 +20,7 @@ import { useSession } from "next-auth/react";
 
   const openProfileModal = () => {
     setIsProfileModalOpen(true);
-    history.pushState(null, '', '/Profil');
+    //history.pushState(null, '', '/Profil');
   };
 
   const closeProfileModal = () => {
@@ -28,15 +28,16 @@ import { useSession } from "next-auth/react";
     history.pushState(null, '', '/');
   };
   const getProfilGithub = async () => {
-    const res = await fetch(`https://api.github.com/${session?.user?.name}`, {
-      headers: {
-        Authorization: `token ${session.accessToken}`,
-      },
+    const octokit = new Octokit({
+      auth: process.env.GITHUB_TOKEN,
     });
-    const data = await res.json();
+    const { data } = await octokit.request('GET /users/{username}', {
+      username: session?.user?.name,
+    });
     console.log(data);
   }
-  getProfilGithub();
+  //getProfilGithub();
+  
     return (
       <>
         <Layout modalOpen={openProfileModal} >
@@ -44,7 +45,7 @@ import { useSession } from "next-auth/react";
                 <h1 className="text-6xl font-bold">Home</h1>
                 <p className="text-xl mt-4">Welcome to ShareFilesCommunity</p>
             </div>
-            {isProfileModalOpen && <Profil onClose={closeProfileModal} isOpen={isProfileModalOpen} session={session} />}
+            {isProfileModalOpen &&<Profil onClose={closeProfileModal} isOpen={isProfileModalOpen} session={session} /> }
            </Layout>
 
       </>

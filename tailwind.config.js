@@ -17,7 +17,7 @@ module.exports = {
           extend: "light",
 
           colors: {
-            foreground: "white",
+           
             background: "#006FEE",
             primary: {
               DEFAULT: "#006FEE",
@@ -27,6 +27,23 @@ module.exports = {
             body: "Roboto, sans-serif",
           }
           
+        },
+        "custom-blue-dark": {
+          extend: "dark",
+          colors: {
+           
+            background: "#18181B",
+            primary: {
+              DEFAULT: "#18181B",
+              
+            },
+            secondary : {
+              DEFAULT: "#338EF7"
+            },
+          },
+          fonts: {
+            body: "Roboto, sans-serif",
+          }
         },
       },
     }),

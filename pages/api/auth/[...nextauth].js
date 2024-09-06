@@ -23,6 +23,19 @@ export const authOptions = {
     })
      
   ],
+  callbacks: {
+    async session({ session, token }) {
+      session.provider = token.provider; // Ajoute le provider à la session
+      return session;
+    },
+    async jwt({ token, account }) {
+      if (account) {
+        token.provider = account.provider; // Ajoute le provider au token JWT
+      }
+      return token;
+    },
+  },
+
   pages:{
     signIn: '/auth/signin',
   },

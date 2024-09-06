@@ -28,6 +28,7 @@ function signin({
        name: null,
        email: null,
        image: null,
+       
    }
    if (session?.user) {
        auths = {
@@ -35,9 +36,11 @@ function signin({
            name: session.user.name,
            email: session.user.email,
            image: session.user.image,
+          
        }
        
    }
+  
 
 //parcourir les providers et associer leurs logos
 useEffect(() => {
@@ -67,7 +70,7 @@ useEffect(() => {
 
 
 }, [providers]);
-console.log(providerData)
+
   return (
     <div>
          <div>
@@ -110,7 +113,9 @@ console.log(providerData)
                 <div className="flex flex-col">
             
             {providerData.map((provider) => (
+                <div key={provider.provider}>
                 <LoginButton auth={provider.provider} logo={provider.logo} />
+                </div>
             ))}
             
             </div> 
@@ -123,7 +128,7 @@ console.log(providerData)
 }
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const session = await getServerSession(context.req, context.res, authOptions)
-  
+   
     // If the user is already logged in, redirect.
     // Note: Make sure not to redirect to the same page
     // To avoid an infinite loop!

@@ -13,21 +13,30 @@ import { Sign } from "crypto";
 import { SignOut } from "../SignOut/SignOut";
 import router from "next/router";
 import { set } from "zod";
+import { useTheme } from "../../app/ThemeProvider/ThemeProvider";
+import { useEffect, useState } from "react";
 
 
 // Exemple d'utilisation
 
-export const Navbar = ({visibleNav,openModal}) => {
+export const Navbar = ({openModal}) => {
   const pathName = usePathname();
   const {data : session} = useSession()
- 
- 
+  const { isDark } = useTheme() as { isDark: boolean };
+  const [isMounted, setIsMounted] = useState(false);
+  console.log(isDark)
+ useEffect(() => {
+    setIsMounted(true);
+  }, []);
+  if(!isMounted) return null;
+
   return (
-    <Navbars className="fixed">
+    <><Navbars className={`fixed  ${isDark ? 'custom-blue-dark bg-primary text-secondary ': 'custom-blue bg-primary'}`} >
       <NavbarBrand>
-        <p className="font-bold text-inherit">ShareFilesCommunity</p>
-      </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <p className={`font-bold  ${isDark ? 'custom-blue-dark text-primary': 'custom-blue text-primary'}`}>
+  ShareFilesCommunity
+</p>
+    </NavbarBrand><NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarItem>
           <Link color="foreground" href="#">
             Features
@@ -43,11 +52,10 @@ export const Navbar = ({visibleNav,openModal}) => {
             Integrations
           </Link>
         </NavbarItem>
-      </NavbarContent>
-      <NavbarContent justify="end">
+      </NavbarContent><NavbarContent justify="end">
         {pathName && !session && pathName === "/Login" && (
           <NavbarItem className="hidden lg:flex" isActive>
-             <Link href="/api/auth/signin">Login</Link>
+            <Link href="/api/auth/signin">Login</Link>
           </NavbarItem>
         )}
         {pathName && pathName !== "/Login" && (
@@ -59,22 +67,23 @@ export const Navbar = ({visibleNav,openModal}) => {
         {session && (
           <NavbarItem>
             <Avatar src={session.user.image} size="small" onClick={openModal} />
-           
+
           </NavbarItem>
         )}
         <NavbarItem>
           {!session &&
-          <Link color="primary" href="/Register" variant="flat">
-            Sign Up
-          </Link>
-          }
+            <Link color="primary" href="/Register" variant="flat">
+              Sign Up
+            </Link>}
         </NavbarItem>
         <NavbarItem>
           {session && (
-           <SignOut/>
+            <SignOut />
           )}
         </NavbarItem>
       </NavbarContent>
     </Navbars>
+    </>
   );
+
 };
