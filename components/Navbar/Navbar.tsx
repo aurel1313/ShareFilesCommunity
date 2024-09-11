@@ -17,14 +17,15 @@ import { useTheme } from "../../app/ThemeProvider/ThemeProvider";
 import { useEffect, useState } from "react";
 
 
+
 // Exemple d'utilisation
 
 export const Navbar = ({openModal}) => {
   const pathName = usePathname();
   const {data : session} = useSession()
-  const { isDark } = useTheme() as { isDark: boolean };
+  const {isDark} = useTheme()
   const [isMounted, setIsMounted] = useState(false);
-  console.log(isDark)
+ 
  useEffect(() => {
     setIsMounted(true);
   }, []);

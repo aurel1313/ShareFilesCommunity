@@ -6,6 +6,7 @@ import Providers from "./providers";
 
 import { getSession, SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
+import { ThemeProvider } from "./ThemeProvider/ThemeProvider";
 
 
 export const metadata = {
@@ -21,12 +22,14 @@ export default async function RootLayout({  children }) {
         {/* <script src="https://cdn.tailwindcss.com"></script> */}
       </head>
       <body>
+        <ThemeProvider>
         <Providers>
 
           <Navbar visibleNav={undefined} />
           {children}
     
         </Providers>
+        </ThemeProvider>
 
         
       </body>

@@ -1,3 +1,4 @@
+'use client';
 import { NextUIProvider } from '@nextui-org/react';
 const {nextui} = require("@nextui-org/react");
 
