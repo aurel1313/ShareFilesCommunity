@@ -30,10 +30,10 @@ export default function Profil({ onClose, isOpen, session }) {
   const [providerName, setProviderName] = useState(null);
   const [isVisibleSettings, setIsVisibleSettings] = useState(false);
   const { isDark, toggleDarkMode,darkTheme,lightTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
+  const [isMounted, setIsMounted] = useState(false); 
  
  
- 
+
 
   useEffect(() => {
     async function fetchProviders() {
@@ -43,8 +43,8 @@ export default function Profil({ onClose, isOpen, session }) {
         const providerKey = Object.keys(providers).find(
           (key) => providers[key].id === session.provider
         );
-
-        setProviderName(providers[providerKey].name);
+       
+        //setProviderName(providers[providerKey].name);
       }
     }
     fetchProviders();

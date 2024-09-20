@@ -1005,6 +1005,9 @@ video {
 .w-screen {
   width: 100vw;
 }
+.w-16 {
+  width: 4rem;
+}
 .min-w-10 {
   min-width: 2.5rem;
 }
@@ -1873,6 +1876,10 @@ video {
 .bg-white\/30 {
   background-color: rgb(255 255 255 / 0.3);
 }
+.bg-green-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(69 212 131 / var(--tw-bg-opacity));
+}
 .bg-\[url\(\'\.\.\/public\/registrationImg\.jpg\'\)\] {
   background-image: url(/_next/static/media/registrationImg.fcb53bc9.jpg);
 }
@@ -2258,6 +2265,10 @@ video {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+.text-blue-400 {
+  --tw-text-opacity: 1;
+  color: rgb(51 142 247 / var(--tw-text-opacity));
 }
 .underline {
   text-decoration-line: underline;

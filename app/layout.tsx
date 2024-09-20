@@ -1,12 +1,15 @@
+
 import type { Metadata } from "next";
 import "../styles/globals.css";
-import { Navbar } from "../components/Navbar/Navbar";
+import  Navbar  from "../components/Navbar/Navbar";
 
 import Providers from "./providers";
 
 import { getSession, SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
 import { ThemeProvider } from "./ThemeProvider/ThemeProvider";
+import { Suspense } from "react";
+
 
 
 export const metadata = {
@@ -24,10 +27,13 @@ export default async function RootLayout({  children }) {
       <body>
         <ThemeProvider>
         <Providers>
-
-          <Navbar visibleNav={undefined} />
+           <Navbar />
+          <Suspense fallback={<div>Loading Navbar...</div>}>
+         
           {children}
-    
+
+          </Suspense>
+          
         </Providers>
         </ThemeProvider>
 

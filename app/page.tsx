@@ -1,9 +1,9 @@
 "use client";
 import { NextUIProvider } from "@nextui-org/react";
-import { Navbar } from "../components/Navbar/Navbar";
-import Layout from "../components/Layout/Layout";
+
+
 import { useRouter, usePathname } from "next/navigation";
-import { Profil } from "./Profil/page";
+import Profil from "./Profil/page";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Octokit } from "octokit";
@@ -42,19 +42,10 @@ export default function Index() {
 
   return (
     <>
-      <Layout modalOpen={openProfileModal}>
-        <div className="flex flex-col items-center justify-center h-screen">
-          <h1 className="text-6xl font-bold">Home</h1>
-          <p className="text-xl mt-4">Welcome to ShareFilesCommunity</p>
-        </div>
-        {isProfileModalOpen && (
-          <Profil
-            onClose={closeProfileModal}
-            isOpen={isProfileModalOpen}
-            session={session}
-          />
-        )}
-      </Layout>
+      <NextUIProvider>
+    
+      
+      </NextUIProvider>
     </>
   );
 }

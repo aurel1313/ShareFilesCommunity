@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   Navbar as Navbars,
   NavbarBrand,
@@ -15,21 +15,40 @@ import router from "next/router";
 import { set } from "zod";
 import { useTheme } from "../../app/ThemeProvider/ThemeProvider";
 import { useEffect, useState } from "react";
+import MyLink from "../Link/Link";
+import CustomLink from "../Link/Link";
+import Profil from "../../app/Profil/page";
 
 
 
 // Exemple d'utilisation
 
-export const Navbar = ({openModal}) => {
+export default function Navbar ({}) {
   const pathName = usePathname();
   const {data : session} = useSession()
   const {isDark} = useTheme()
-  const [isMounted, setIsMounted] = useState(false);
- 
+  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+ const router = useRouter();
+ //open modal profil when click on avatar
  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-  if(!isMounted) return null;
+  if (pathName === "/Profil") {
+    setIsProfileModalOpen(true);
+  }
+}, [pathName]);
+  const openModal = () => {
+  
+    setIsProfileModalOpen(true);
+    history.pushState(null, '', '/Profil');
+  
+
+  };
+  const closeModal = () => {
+    setIsProfileModalOpen(false);
+    history.pushState(null, '', '/');
+  };
+
+
+
 
   return (
     <><Navbars className={`fixed  ${isDark ? 'custom-blue-dark bg-primary text-secondary ': 'custom-blue bg-primary'}`} >
@@ -56,31 +75,38 @@ export const Navbar = ({openModal}) => {
       </NavbarContent><NavbarContent justify="end">
         {pathName && !session && pathName === "/Login" && (
           <NavbarItem className="hidden lg:flex" isActive>
-            <Link href="/api/auth/signin">Login</Link>
+           <CustomLink href="/api/auth/signin" className={`${isDark ? "text-blue-400": "text-white"}`}  >
+              Login
+            </CustomLink>
           </NavbarItem>
         )}
         {pathName && pathName !== "/Login" && (
           <NavbarItem className="hidden lg:flex">
-            <Link href="/api/auth/signin">Login</Link>
+           
+            <CustomLink href="/api/auth/signin" className={`${isDark ? "text-blue-400": "text-white"}`}  >
+              Login
+            </CustomLink>
           </NavbarItem>
         )}
 
         {session && (
           <NavbarItem>
             <Avatar src={session.user.image} size="small" onClick={openModal} />
-
+            {
+              isProfileModalOpen && <Profil isOpen={isProfileModalOpen} onClose={closeModal} session={session} />
+            }
           </NavbarItem>
         )}
         <NavbarItem>
           {!session &&
-            <Link color="primary" href="/Register" variant="flat">
-              Sign Up
-            </Link>}
+            <CustomLink href="/Register" className={`${isDark ? "text-blue-400": "text-white"}`}  >Sign Up</CustomLink>
+            }
         </NavbarItem>
         <NavbarItem>
           {session && (
             <SignOut />
           )}
+        
         </NavbarItem>
       </NavbarContent>
     </Navbars>

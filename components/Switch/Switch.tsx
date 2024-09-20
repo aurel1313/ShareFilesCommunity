@@ -1,8 +1,12 @@
 import React from "react";
 import { Switch, useSwitch } from "@nextui-org/react";
+import { useTheme } from "../../app/ThemeProvider/ThemeProvider";
+import { color } from "framer-motion";
 
 export const CustomSwitch = ({ isSelected, onChange }) => {
   const [selected, setSelected] = React.useState(false);
+  const { isDark } = useTheme();
+
   const {
     Component,
     slots,
@@ -14,26 +18,20 @@ export const CustomSwitch = ({ isSelected, onChange }) => {
   const handleClick = (e) => {
     onChange(selected);
   };
-console.log(isSelected)
+
   return (
-    <Component {...getBaseProps()} onClick={handleClick}>
+    <Component  onClick={handleClick}>
       {/* Wrapper pour la track (espace autour du thumb) */}
       <div
         {...getWrapperProps()}
         style={{ overflow: 'hidden' }}
         className={slots.wrapper({
             class:[
-                isSelected ? "bg-blue-400" : "bg-red-400",
-                "rounded-full",
-                "h-6",
-                "w-12",
-                "flex",
-                "items-center",
-                "cursor-pointer",
-                "transition",
-                "duration-200",
-                "ease-in-out",
-                "relative",
+              'z-30',
+              isDark ? 'bg-primary' : 'bg-secondary',
+             
+              
+
             ]
         })}
       >

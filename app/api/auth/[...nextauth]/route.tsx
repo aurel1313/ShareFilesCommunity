@@ -1,25 +1,29 @@
 import NextAuth from "next-auth";
 import Providers from "next-auth/providers";
-import Adapters from "next-auth/adapters";
-
+import GoogleProvider from "next-auth/providers/google";
+import GithubProvider from "next-auth/providers/github";
 const handler = NextAuth({
     // Configure one or more authentication providers
     providers: [
-        Providers.GitHub({
+       GithubProvider({
         clientId: process.env.GITHUB_ID,
         clientSecret: process.env.GITHUB_SECRET,
-        }),
-        Providers.Google({
-        clientId: process.env.GOOGLE_ID,
-        clientSecret: process.env.GOOGLE_SECRET,
-        } as any), // Add 'as any' to bypass the type checking error
-        (Providers as any).Discord({
-        clientId: process.env.DISCORD_ID,
-        clientSecret: process.env.DISCORD_SECRET,
-        }),
-    ]
-  
-    // A database is optional, but required to persist accounts in a database
-    //database: process.env.DATABASE_URL,
+        scope: "user",
+        })
+
+        // ...add more providers here
+    ],
+    callbacks: {
+        async session({ session, token }) {
+            session.provider = token.provider; // Ajoute le provider à la session
+            return session;
+          },
+          async jwt({ token, account }) {
+            if (account) {
+              token.provider = account.provider; // Ajoute le provider au token JWT
+            }
+            return token;
+          },
+    }
     });
     export { handler as GET, handler as POST }
